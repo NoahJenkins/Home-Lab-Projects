@@ -1,27 +1,22 @@
-# AdGuard DNS Server
+# Kasm Worskspaces
 
 ## Objective
 
-The goal of this project is to set up a DNS server running using Ad Guard. This will not only build help to develop your understanding of networking and DNS, but it will also set up adblocking on your entire network!
+The goal of this project is to set up a Kasm Workspace solution for your homelab. This will give you isolated enviroments that you can stream to your browser.
 
 ### Skills Learned
 
-- Improved understanding of networking configuration and DNS function. 
-- Configuring a DNS server on an existing network. 
-- Setting up a Remote Linux Server
-- Confiuring a Linux server to have a static IP address.
-- Watching Hulu Ad-Free!!!
+- Remote Linux Server Set up and Config
 
 ### Tools Used
 
-- Rasberry PI 5 to host the DNS Server Locally
-- -Rasberry OS (Lite)
-- AD-Guard, the DNS Server service that you will be running in the Linux OS.
-- Unifi OS (In this project Unifi networking solutions were used, but any modern router should work just fine).
+- Ubuntu Desktop or Ubuntu Server
+- Kasm Worskpaces
 
 ## Steps
 
-1. Set up a Linux VM (specifically an Ubuntu OS, either Desktop or server would work).
+1. Set up a Linux VM (specifically an Ubuntu OS, either Desktop or server would work). 
+ - Pro tip! It is best to SSH into a linux machine (if it is remote at least) so you can copy and paste the commands into it. 
 
 2. Create a swap partition for additional stability. Use the following commands:
 
@@ -58,3 +53,7 @@ The goal of this project is to set up a DNS server running using Ad Guard. This 
 6. Once signed in, you can go go to registry on left hand side, and start installing some workspaces! 
 
  ![A screen shot showing the kasm workspace admin portal on the workspace registry page.](image-1.png)
+
+7. Once you have a workspace up and running, you can add the [Kasm extension](https://chromewebstore.google.com/detail/kasm-open-in-isolation/pamimfbchojeflegdjgijcgnoghgfemn "Kasm extension") to your browser (chromium), which will allow you to rightclick a link, and open in an isolated enviroment via Kasm Workspace:
+
+
