@@ -1,7 +1,6 @@
 # AdGuard DNS Server
 
 ## Objective
-[Brief Objective - Remove this afterwards]
 
 The goal of this project is to set up a DNS server running using Ad Guard. This will not only build help to develop your understanding of networking and DNS, but it will also set up adblocking on your entire network!
 
