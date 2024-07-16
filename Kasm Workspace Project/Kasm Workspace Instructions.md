@@ -33,7 +33,9 @@ The goal of this project is to set up a Kasm Workspace solution for your homelab
 
 ``` 
  Make the Swap Available on Boot:
+  ```htm
   - echo '/mnt/4GiB.swap swap swap defaults 0 0' | sudo tee -a /etc/fstab
+  ```
 
 3. If you do not have docker installed already on your linux machine, you can install it with the following commands:
 
