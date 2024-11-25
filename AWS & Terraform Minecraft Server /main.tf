@@ -78,40 +78,50 @@ resource "aws_security_group" "minecraft_sg" {
   }
 }
 
-# Key pair for SSH access
-resource "aws_key_pair" "minecraft_key" {
-  key_name   = "minecraft-key"
-  public_key = file("~/.ssh/id_rsa.pub")
+# Generate SSH Key Pair
+resource "tls_private_key" "generated" {
+  algorithm = "RSA"
 }
 
-# Create an EC2 instance
+# Save the Private Key Locally
+resource "local_file" "private_key_pem" {
+  content  = tls_private_key.generated.private_key_pem
+  filename = "${path.module}/MyAWSKey.pem"
+}
+
+# Create AWS Key Pair
+resource "aws_key_pair" "generated" {
+  key_name   = "MyAWSKey"
+  public_key = tls_private_key.generated.public_key_openssh
+
+  lifecycle {
+    ignore_changes = [key_name]
+  }
+}
+
+# Use the Generated Key in Your EC2 Instance
 resource "aws_instance" "minecraft_server" {
   ami                    = "ami-08c40ec9ead489470" # Amazon Linux 2 AMI
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.public.id
-  vpc_security_group_ids = [aws_security_group.minecraft_sg.id] # Use the security group ID
-  key_name               = aws_key_pair.minecraft_key.key_name
+  vpc_security_group_ids = [aws_security_group.minecraft_sg.id]
+  key_name               = aws_key_pair.generated.key_name
 
-  tags = {
-    Name = "minecraft-server"
-  }
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "sudo yum update -y",
+  #     "sudo yum install -y wget unzip",
+  #     "wget https://minecraft.azureedge.net/bin-linux/bedrock-server-1.20.30.01.zip",
+  #     "unzip bedrock-server-1.20.30.01.zip -d bedrock",
+  #     "cd bedrock",
+  #     "./bedrock_server &"
+  #   ]
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo yum update -y",
-      "sudo yum install -y wget unzip",
-      "wget https://minecraft.azureedge.net/bin-linux/bedrock-server-1.20.30.01.zip",
-      "unzip bedrock-server-1.20.30.01.zip -d bedrock",
-      "cd bedrock",
-      "./bedrock_server &"
-    ]
-
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      private_key = file("~/.ssh/id_rsa")
-      host        = self.public_ip
-    }
-  }
+  #   connection {
+  #     type        = "ssh"
+  #     user        = "ec2-user"
+  #     private_key = tls_private_key.generated.private_key_pem
+  #     host        = self.public_ip
+  #   }
+  # }
 }
-

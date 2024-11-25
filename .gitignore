@@ -44,3 +44,5 @@ Thumbs.db
 *.tar.gz
 *.bak
 
+# Exclude sensitive files
+*.pem
