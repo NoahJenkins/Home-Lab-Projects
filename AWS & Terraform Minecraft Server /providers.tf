@@ -11,13 +11,5 @@ terraform {
       source  = "hashicorp/tls"
       version = "~> 3.0"
     }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.0"
-    }
-    sha256 = {
-      source  = "hashicorp/sha256"
-      version = "~> 3.0"
-    }
   }
 }

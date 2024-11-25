@@ -87,6 +87,10 @@ resource "tls_private_key" "generated" {
 resource "local_file" "private_key_pem" {
   content  = tls_private_key.generated.private_key_pem
   filename = "${path.module}/MyAWSKey.pem"
+
+  provisioner "local-exec" {
+    command = "chmod 400 ${path.module}/MyAWSKey.pem"
+  }
 }
 
 # Create AWS Key Pair
@@ -107,21 +111,21 @@ resource "aws_instance" "minecraft_server" {
   vpc_security_group_ids = [aws_security_group.minecraft_sg.id]
   key_name               = aws_key_pair.generated.key_name
 
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "sudo yum update -y",
-  #     "sudo yum install -y wget unzip",
-  #     "wget https://minecraft.azureedge.net/bin-linux/bedrock-server-1.20.30.01.zip",
-  #     "unzip bedrock-server-1.20.30.01.zip -d bedrock",
-  #     "cd bedrock",
-  #     "./bedrock_server &"
-  #   ]
+  provisioner "remote-exec" {
+    inline = [
+      "sudo yum update -y",
+      "sudo yum install -y wget unzip",
+      "wget https://minecraft.azureedge.net/bin-linux/bedrock-server-1.20.30.01.zip",
+      "unzip bedrock-server-1.20.30.01.zip -d bedrock",
+      "cd bedrock",
+      "./bedrock_server &"
+    ]
 
-  #   connection {
-  #     type        = "ssh"
-  #     user        = "ec2-user"
-  #     private_key = tls_private_key.generated.private_key_pem
-  #     host        = self.public_ip
-  #   }
-  # }
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = tls_private_key.generated.private_key_pem
+      host        = self.public_ip
+    }
+  }
 }

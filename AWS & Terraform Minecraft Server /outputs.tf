@@ -1,4 +1,4 @@
-output "name" {
-  value = aws_instance.minecraft.name
-  
-}
+# output "name" {
+#   value = aws_instance.minecraft.name
+
+# }
