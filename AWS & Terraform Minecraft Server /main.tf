@@ -129,3 +129,6 @@ resource "aws_instance" "minecraft_server" {
     }
   }
 }
+
+#testing dev branch
+#commit from dev to test
